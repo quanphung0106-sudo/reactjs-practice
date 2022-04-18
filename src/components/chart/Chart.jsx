@@ -36,11 +36,11 @@ const data = [
   },
 ];
 
-const Charts = () => {
+const Chart = ({ aspect, title }) => {
   return (
-    <div id="chart">
-      <div className="title">Last 6 months (Revenue)</div>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="chart">
+      <div className="title">{title}</div>
+      <ResponsiveContainer width="100%" height="100%" aspect={aspect}>
         <AreaChart
           width={730}
           height={250}
@@ -70,4 +70,4 @@ const Charts = () => {
   );
 };
 
-export default Charts;
+export default Chart;
