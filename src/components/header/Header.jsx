@@ -110,6 +110,8 @@ const Header = ({ type }) => {
                     moveRangeOnFirstSelection={false}
                     ranges={date}
                     className="date"
+                    //ngày cũ thì không cần hiện, set minDate làm ngày hiện tại
+                    minDate={new Date()}
                   />
                 )}
               </div>
