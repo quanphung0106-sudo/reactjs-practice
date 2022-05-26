@@ -5,15 +5,28 @@ import { useLocation } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import SearchItem from "../../components/searchItem/SearchItem";
+import useFetch from "../../hooks/useFetch";
 import "./list.css";
 
 const List = () => {
   const location = useLocation();
 
   const [destination, setDestination] = useState(location.state.destination);
-  const [date, setDate] = useState(location.state.date);
+  const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
+  const [min, setMin] = useState(undefined);
+  const [max, setMax] = useState(undefined);
+
+  const { data, loading, error, reFetch } = useFetch(
+    `http://localhost:8808/api/hotels?city=${destination}&min=${min || 0}&max=${
+      max || 999
+    }`
+  );
+
+  const handleClick = () => {
+    reFetch();
+  };
 
   return (
     <div>
@@ -33,15 +46,15 @@ const List = () => {
               <span
                 onClick={() => setOpenDate(!openDate)}
                 className="headerSearchText"
-              >{`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
-                date[0].endDate,
+              >{`${format(dates[0].startDate, "dd/MM/yyyy")} to ${format(
+                dates[0].endDate,
                 "dd/MM/yyyy"
               )}`}</span>
               {openDate && (
                 <DateRange
-                  onChange={(item) => setDate([item.selection])}
+                  onChange={(item) => setDates([item.selection])}
                   minDate={new Date()}
-                  ranges={date}
+                  ranges={dates}
                 />
               )}
             </div>
@@ -52,16 +65,24 @@ const List = () => {
                 <span className="lsOptionText">
                   Min price <small> per night</small>
                 </span>
-                <input type="number" className="lsOptionInput" />
+                <input
+                  onChange={(e) => setMin(e.target.value)}
+                  type="number"
+                  className="lsOptionInput"
+                />
               </div>
               <div className="lsOptionItem">
                 <span className="lsOptionText">
                   Max price <small> per night</small>
                 </span>
-                <input type="number" className="lsOptionInput" />
+                <input
+                  onChange={(e) => setMax(e.target.value)}
+                  type="number"
+                  className="lsOptionInput"
+                />
               </div>
               <div className="lsOptionItem">
-                <span className="lsOptionText">Adut</span>
+                <span className="lsOptionText">Adult</span>
                 <input
                   min={1}
                   placeholder={options.adult}
@@ -88,14 +109,18 @@ const List = () => {
                 />
               </div>
             </div>
-            <button>Search</button>
+            <button onClick={handleClick}>Search</button>
           </div>
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
+            {loading ? (
+              "Loading"
+            ) : (
+              <>
+                {data.map((item) => (
+                  <SearchItem item={item} key={item._id} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>
