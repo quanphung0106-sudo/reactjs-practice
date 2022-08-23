@@ -30,8 +30,10 @@
     color: var(--black);
     background-color: transparent;
     caret-color: var(--primary);
+    font-family: var(--font-family);
   }
 
+  // Neu mat' placeholder thi hien color cho icon Search
   input:not(:placeholder-shown) ~ .search-btn {
     color: rgba(22, 24, 35, 0.75);
   }

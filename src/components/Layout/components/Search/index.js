@@ -45,6 +45,16 @@ function Search() {
     setShowResult(false);
   };
 
+  const handleChange = (e) => {
+    const searchValue = e.target.value;
+    const KEY_SPACE = /\s/g;
+
+    //Neu ma ky tu dau tien khong co "space" => set State
+    if (!KEY_SPACE.test(searchValue[0])) {
+      setSearchValue(searchValue);
+    }
+  };
+
   return (
     <HeadlessTippy
       interactive
@@ -67,7 +77,7 @@ function Search() {
           value={searchValue}
           type="text"
           spellCheck={false}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={handleChange}
           placeholder="Search accounts and videos"
           onFocus={() => setShowResult(true)}
         />
@@ -78,7 +88,7 @@ function Search() {
           </button>
         )}
         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-        <button className={cx('search-btn')}>
+        <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </div>
