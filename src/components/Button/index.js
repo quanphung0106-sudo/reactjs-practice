@@ -72,7 +72,20 @@ const Button = ({
 };
 
 Button.prototype = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
+  to: PropTypes.string,
+  href: PropTypes.string,
+  primary: PropTypes.bool,
+  outline: PropTypes.bool,
+  text: PropTypes.bool,
+  rounded: PropTypes.bool,
+  small: PropTypes.bool,
+  large: PropTypes.string,
+  disabled: PropTypes.string,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  leftIcon: PropTypes.bool,
+  rightIcon: PropTypes.bool,
 };
 
 export default Button;

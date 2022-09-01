@@ -6,6 +6,9 @@
 
 .container {
   width: var(--default-layout-width);
+
+  // Khi width man hinh thu nho lai thi width no cung = noi dung trinh duyet
+  max-width: 100%;
   display: flex;
   padding: 0 var(--default-horizontal-spacer);
   margin-top: var(--default-layout-header-height);

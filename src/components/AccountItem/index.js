@@ -25,7 +25,7 @@ function AccountItem({ data }) {
 }
 
 AccountItem.prototype = {
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
 };
 
 export default AccountItem;
