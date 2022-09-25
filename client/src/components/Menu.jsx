@@ -48,6 +48,10 @@ const Item = styled.div`
   cursor: pointer;
   padding: 7.5px 0px;
   user-select: none;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.soft};
+  }
 `;
 
 const Hr = styled.hr`
@@ -86,10 +90,12 @@ const Menu = ({ darkMode, setDarkMode }) => {
   return (
     <Container>
       <Wrapper>
-        <Logo>
-          <Img src={MyLogo} alt="logo" />
-          Youtube
-        </Logo>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Logo>
+            <Img src={MyLogo} alt="logo" />
+            Youtube
+          </Logo>
+        </Link>
         <Item>
           <HomeIcon />
           Home
@@ -114,10 +120,12 @@ const Menu = ({ darkMode, setDarkMode }) => {
         <Hr />
         <Login>
           Sign in to like videos, comment, and subscribe.
-          <Button>
-            <AccountCircleOutlinedIcon />
-            SIGN IN
-          </Button>
+          <Link to="/signin" style={{ textDecoration: 'none' }}>
+            <Button>
+              <AccountCircleOutlinedIcon />
+              SIGN IN
+            </Button>
+          </Link>
         </Login>
         <Hr />
         <Title>BEST OF CONTENT</Title>
