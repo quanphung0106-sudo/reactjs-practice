@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { format } from 'timeago.js';
+import axios from 'axios';
 
 const Container = styled.div`
   width: 360px;
@@ -51,23 +53,29 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await axios.get(`/users/find/${video.userId}`);
+      setChannel(res.data);
+    };
+    fetchChannel();
+  }, [video.userId]);
+
   return (
-    <Link to="/video/1" style={{ textDecoration: 'none' }}>
+    <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
       <Container type={type}>
-        <Image
-          type={type}
-          src="https://img.freepik.com/free-vector/gradient-galaxy-background_23-2148983655.jpg?w=1380&t=st=1664010711~exp=1664011311~hmac=4af2e3514ff6c06b894fb4ffaccdf35c7009454e8278f90d13c639c051e94dd9"
-        />
+        <Image type={type} src={video.imgUrl} />
         <Details type={type}>
-          <ChannelImage
-            type={type}
-            src="https://img.freepik.com/free-photo/cheerful-beautiful-young-asian-woman-feeling-happy-smiling-camera-while-traveling-chinatown-beijing-china_7861-1341.jpg?w=1480&t=st=1664010865~exp=1664011465~hmac=20f4181c8399daf64ac362b96f8d66b618e0334b79af97bb041e6e8916b54ceb"
-          />
+          <ChannelImage type={type} src={channel.img} />
           <Texts>
-            <Title>Test Video</Title>
-            <ChannelName>Quan Phung</ChannelName>
-            <Info>660,908 views • 1 day ago</Info>
+            <Title>{video.title}</Title>
+            <ChannelName>{channel.name}</ChannelName>
+            <Info>
+              {video.views} views • {format(video.createdAt)}
+            </Info>
           </Texts>
         </Details>
       </Container>

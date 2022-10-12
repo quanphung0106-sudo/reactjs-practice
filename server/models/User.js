@@ -4,17 +4,16 @@ const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      requied: true,
+      required: true,
       unique: true,
     },
     email: {
       type: String,
-      requied: true,
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      requied: true,
     },
     img: {
       type: String,
@@ -25,6 +24,10 @@ const UserSchema = new mongoose.Schema(
     },
     subscribedUsers: {
       type: [String],
+    },
+    fromGoogle: {
+      type: Boolean,
+      default: false,
     },
   },
   {
