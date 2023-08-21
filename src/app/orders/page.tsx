@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { stringify } from "querystring";
 import { FormEvent } from "react";
+import { toast } from "react-toastify";
 
 const OrdersPage = () => {
     const { data: session, status } = useSession();
@@ -26,7 +27,7 @@ const OrdersPage = () => {
     const mutation = useMutation({
         mutationFn: ({ id, status }: { id: string; status: string }) => {
             return fetch(`http://localhost:3000/api/orders/${id}`, {
-              method: "PUT",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -47,6 +48,7 @@ const OrdersPage = () => {
         const status = input.value;
 
         mutation.mutate({ id, status });
+        toast.success("The order has been changed.");
     };
 
     return (
@@ -65,7 +67,9 @@ const OrdersPage = () => {
                     {data.map((item: OrderType) => (
                         <tr
                             key={item.id}
-                            className="text-sm md:text-base bg-red-50"
+                            className={`${
+                                item.status !== "delivered" && "bg-red-50"
+                            }`}
                         >
                             <td className="hidden md:block py-6 px-1">
                                 {item.id}
